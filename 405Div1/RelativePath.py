@@ -9,11 +9,7 @@ class RelativePath:
             if currentDir[i]!=path[i]:
                 up = i
                 break
-    
         relative = '../'*(len(currentDir)-up)
-        if len(relative)!=0: relative = relative[:-1]
         for i in xrange(up,len(path)):
-            relative +='/'+path[i]
-        if len(currentDir)==up:
-        	relative=relative[1:]
-	return relative
+            relative +=path[i]+'/'
+	return relative[:-1]
