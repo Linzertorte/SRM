@@ -120,3 +120,4 @@ class PenLift:
                 total += pen
         #print total
         return total
+
