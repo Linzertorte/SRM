@@ -1,11 +1,5 @@
 class PenLift:
-    def numTimes(self, segments, n):
-    	if n==998000:
-    		return 18
-    	if n==994000:
-    		return 8
-    	if n==800200:
-    		return 0
+    def numTimes(self, segments, m):
         #print len(segments)
         def f(s):
             x1,y1,x2,y2=map(int,s.split(' '))
@@ -57,67 +51,81 @@ class PenLift:
             last_x = x1
         if last_x is not None:
             normalized_v.append((last_x,last_y1,last_x,last_y2))
-        #print len(normalized_v)
-        degree ={}
-        edge = set()
+        n = len(normalized_v)+len(normalized_h)
+        i = 0
+        seg_i={}
         for seg in normalized_v:
-            x1,y1,x2,y2=seg
-            edge.add(((x1,y1),(x2,y2)))
-            degree[x1,y1] = degree[x2,y2] =1
+            seg_i[seg]=i
+            i += 1
         for seg in normalized_h:
-            x1,y1,x2,y2=seg
-            edge.add(((x1,y1),(x2,y2)))
-            if (x1,y1) not in degree:
-                degree[x1,y1] = 0
-            degree[x1,y1] += 1
-            if (x2,y2) not in degree:
-                degree[x2,y2] = 0
-            degree[x2,y2] += 1
-        nx={}
-        for seg in normalized_h:
-        	x1,y1,x2,y2 = seg
-        	nx[x1,y1] = x1    
-        for v in normalized_v:
-            x,y1,_,y2 = v
-            y_h = y1
-            for h in normalized_h:
-                x1,y,x2,_ = h
-                if x1<=x<x2 and y1<=y<=y2: #has intersection
-                    #add four edges
-                    #edge.add(((x1,y),(x,y)))
-                    edge.add(((nx[x1,y],y),(x,y)))
-                    nx[x1,y]=x
-                    edge.add(((x,y_h),(x,y)))
-                    
-                    if (x,y) in degree:
-                        degree[x,y]+=2
-                    else:
-                        degree[x,y] =4
-                    y_h = y
-            edge.add(((x,y2),(x,y_h)))
-        #print degree
-        #print len(degree)
-        visited = set()
-        points = degree.keys()
-        def dfs(p,points,degree,edge,visited,singles):
-            if degree[p]%2==1:
-                singles.append(p)
-            visited.add(p)
-            for p1 in points:
-                if (p1 not in visited) and ((p1,p) in edge or (p,p1) in edge):
-                    dfs(p1,points,degree,edge,visited,singles)
+            seg_i[seg] = i
+            i += 1
+
+        f = [0]*n
+        rank = [0]*n
+        for i in xrange(n):
+            f[i]=i
+
+        def find(u,f):
+            if f[u]==u:
+                return u
+            f[u]=find(f[u],f)
+            return f[u]
+        def union(u,v,f,rank):
+            u = find(u,f)
+            v = find(v,f)
+            if(u==v):
+                return
+            if rank[u]>rank[v]:
+                f[v]=u
+            else:
+                f[u]=v
+                if rank[u]==rank[v]:
+                    rank[v] += 1
+        for p1 in normalized_v:
+            x,y1,_,y2 = p1
+            for p2 in normalized_h:
+                x1,y,x2,_=p2
+                if x1<=x<=x2 and y1<=y<=y2:
+                    union(seg_i[p1],seg_i[p2],f,rank)
+        singles = {}
+        for p in normalized_v:
+            x1,y1,x2,y2 = p
+            i = find(seg_i[p],f)
+            if i not in singles:
+                singles[i]=set()
+            if (x1,y1) in singles[i]:
+                singles[i].remove((x1,y1))
+            else:
+                singles[i].add((x1,y1))
+            if (x2,y2) in singles[i]:
+                singles[i].remove((x2,y2))
+            else:
+                singles[i].add((x2,y2))
+        for p in normalized_h:
+            x1,y1,x2,y2 = p
+            i = find(seg_i[p],f)
+            if i not in singles:
+                singles[i]=set()
+            if (x1,y1) in singles[i]:
+                singles[i].remove((x1,y1))
+            else:
+                singles[i].add((x1,y1))
+            if (x2,y2) in singles[i]:
+                singles[i].remove((x2,y2))
+            else:
+                singles[i].add((x2,y2))
+        #print singles
         total = -1
-        for p in points:
-            if p not in visited:
-                singles = []
-                dfs(p,points,degree,edge,visited,singles)
-                #print singles
-                pen = len(singles)/2
-                if n%2==0:
-                    pen = 0
-                if pen ==0:
-                    pen = 1
-                total += pen
+        for k in singles:
+            cnt = len(singles[k])/2
+            #print 'cnt',cnt
+            if m%2 ==0:
+                cnt = 0
+                #print 'cnt',cnt
+            if cnt==0:
+                cnt = 1
+            #print cnt
+            total += cnt
         #print total
         return total
-
