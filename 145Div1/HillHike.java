@@ -1,51 +1,44 @@
 public class HillHike {
-    public void getDP(long[][][] dp, int n,int m,int maxH, int[] landmarks){
-        dp[0][0][0]=1;
-        if(m>1 && landmarks[0]==0) dp[0][1][0]=1; //first landmark is 0
-        for(int i=1;i<n;i++)
-            for(int j=0;j<m;j++) //m-1 landmarks
-                for(int h=1;h<=maxH;h++){
-                    if(j!=0 && landmarks[j-1]==h){
-                        if(h+1<=maxH)
-                            dp[i][j][h] += dp[i-1][j-1][h+1];
-                        dp[i][j][h] += dp[i-1][j-1][h];
-                        if(h-1>=0)
-                            dp[i][j][h] += dp[i-1][j-1][h-1];
-                    }else{
-                        if(h+1<=maxH)
-                            dp[i][j][h] += dp[i-1][j][h+1];
-                        dp[i][j][h] += dp[i-1][j][h];
-                        if(h-1>=0)
-                            dp[i][j][h] += dp[i-1][j][h-1];
-                    }
-                    
-                }
+    long[][][][] dp;
+    int[] land;
+    int n,h,m;
+    public long dfs(int i,int j,int k,int f){
+        if(i>n){
+            if(j==0 && f==1 && k==land.length)
+                return 1;
+            else
+                return 0;       
+        }
+        long p = 0;
+        if(j==h) f=1;
+        if(k<m && land[k]==j) k++;
+        if(dp[i][j][k][f]!=-1)
+            return dp[i][j][k][f];
+        if(i>0) p+=dfs(i+1,j,k,f);
+        if(j<h) p+=dfs(i+1,j+1,k,f);
+        if(j>1 || (j!=0 &&i==n-1)) p+=dfs(i+1,j-1,k,f);
+        return dp[i][j][k][f]=p;
+        
     }
     public long numPaths(int distance, int maxHeight, int[] landmarks){
-        int m = landmarks.length + 1;
-        int n = distance + 1;
-        long[][][] dpl= new long[n][m][maxHeight];
-        long[][][] dpr= new long[n][m][maxHeight + 1];
-        getDP(dpl,n,m,maxHeight-1,landmarks);
-        for(int i=0;i<landmarks.length/2;i++){
-            int t = landmarks[i];
-            landmarks[i]=landmarks[m-2-i];
-            landmarks[m-2-i] = t;
-        }
-        getDP(dpr,n,m,maxHeight,landmarks);        
-        long total = 0;
-        for(int i=0;i<n-1;i++)
-            for(int j=0;j<m;j++){
-                long t = dpl[i][j][maxHeight-1]*dpr[n-2-i][m-1-j][maxHeight];
-                if(t!=0){
-                    total += dpl[i][j][maxHeight-1]*dpr[n-2-i][m-1-j][maxHeight];
-                    //System.out.println(i+" "+j+" "+dpl[i][j][maxHeight-1]+" "+t);
-                }
-            }
+        m = landmarks.length;
+        n = distance;
+        h = maxHeight;
+        land = landmarks;
+        dp = new long[distance+1][maxHeight+1][landmarks.length+1][2];
+        for(int i=0;i<distance+1;i++)
+            for(int j=0;j<maxHeight+1;j++)
+                for(int k=0;k<landmarks.length+1;k++)
+                    for(int f=0;f<2;f++)
+                        dp[i][j][k][f]=-1;
+        long total = dfs(0,0,0,0);
+        //System.out.println(total);
         return total;
     }
     public static void main(String[] args){
         HillHike hill = new HillHike();
         hill.numPaths(8, 3, new int[]{2,2,3,1});
+        hill.numPaths(38, 11, new int[]{4,5,8,5,6});
+        hill.numPaths(5, 1, new int[]{1,1});
     }
 }
