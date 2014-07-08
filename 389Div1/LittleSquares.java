@@ -82,3 +82,4 @@ public class LittleSquares {
 		ls.winner(new String[]{"..","..",".#","##"});
 	}
 }
+
