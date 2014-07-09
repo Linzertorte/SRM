@@ -65,3 +65,4 @@ class RoboCourier:
                 old_x,old_y = nx,ny
                 nx,ny = nx+self.dx[cur_dir],ny+self.dy[cur_dir]
 
+
