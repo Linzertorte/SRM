@@ -1,4 +1,3 @@
-__author__ = 'qingfei'
 class Collision:
     def probability(self, assignments, ids):
         p1 = 1.0
