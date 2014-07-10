@@ -69,3 +69,4 @@ public class PrimeCompositeGame {
 		return dp[0][N]>0?dp[0][N]-1:dp[0][N]+1;
 	}
 }
+
