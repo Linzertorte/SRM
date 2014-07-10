@@ -1,12 +1,11 @@
 import java.util.TreeMap;
 
-
 public class PrimeCompositeGame {
 	int[][] dp;
 	boolean[] notPrime;
 	TreeMap<Integer, Integer> primePositive = new TreeMap<Integer, Integer>(); //all the values are prime
 	TreeMap<Integer, Integer> primeNegative = new TreeMap<Integer, Integer>();
-	TreeMap<Integer, Integer> compositePositive = new TreeMap<Integer, Integer>(); 
+	TreeMap<Integer, Integer> compositePositive = new TreeMap<Integer, Integer>();
 	TreeMap<Integer, Integer> compositeNegative = new TreeMap<Integer, Integer>();
 	public int getMin(TreeMap<Integer,Integer> map, int bound){
 		while(!map.isEmpty()){
@@ -25,7 +24,7 @@ public class PrimeCompositeGame {
 		return 0;
 	}
 	
-	public int theOutcome(int N, int K){
+    public int theOutcome(int N, int K){
 		dp = new int[2][N+1];
 		notPrime = new boolean[N+1];
 		
@@ -69,4 +68,3 @@ public class PrimeCompositeGame {
 		return dp[0][N]>0?dp[0][N]-1:dp[0][N]+1;
 	}
 }
-
