@@ -24,8 +24,6 @@ public:
     int best;
     int cover(vector<int> &xpos, vector<int> &ypos, vector<int> &pw, vector<int> &ph,int width, int height){
         
-        
-        
         int area = 0;
         int n = xpos.size();
         for(int i=0;i<n;i++){
@@ -49,7 +47,8 @@ public:
         }
         return area;
     }
-    void go(int cur, int width, int height,vector<int> &pw, vector<int> &ph,vector<int> &xpos,vector<int> &ypos, vector<int> &criticalx, vector<int> &criticaly){
+    void go(int cur, int width, int height,vector<int> &pw, vector<int> &ph,vector<int> &xpos,\
+        vector<int> &ypos, vector<int> &criticalx, vector<int> &criticaly){
         if(cur==pw.size()){
             best = max(best,cover(xpos,ypos,pw,ph,width,height));
             return;
