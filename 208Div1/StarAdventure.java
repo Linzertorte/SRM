@@ -76,3 +76,4 @@ public class StarAdventure
                     cnt = Math.max(cnt,dp[n-2][i][j][k]+getStars(n-1,i,m-1,stars));
         return cnt;
     }
+}
