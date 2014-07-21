@@ -1,5 +1,5 @@
 class PrinceOfPersia:
-    INF = 100
+    INF = 10000000
     def minObstacles(self, maze):
         def dfs(i,N,t,c,visited,f):
             visited[i] = 1
