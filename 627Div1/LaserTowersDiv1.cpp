@@ -93,40 +93,41 @@ public:
         int px,py;
         int ultimateKill = 0;
         for(int i=0;i<n;i++)
-            for(int j=0;j<m;j++){
-                if(towers.find_first_of(board[i][j])!=string::npos){
-                    dir = towers.find_first_of(board[i][j]);
-                    //cout<<dir<<endl;
-                    int mm = 0;
-                    px = i+dx[dir], py = j+dy[dir];
-                    while(px>=0 and px<n and py>=0 and py<m){
-                        if(board[px][py]!='.')
-                            mm = max(mm,board[px][py]-'0');
-                        px += dx[dir];
-                        py += dy[dir];
+        for(int j=0;j<m;j++)
+            if(towers.find_first_of(board[i][j])!=string::npos){
+                dir = towers.find_first_of(board[i][j]);
+                //cout<<dir<<endl;
+                int mm = 0;
+                px = i+dx[dir], py = j+dy[dir];
+                while(px>=0 and px<n and py>=0 and py<m){
+                    if(board[px][py]!='.')
+                        mm = max(mm,board[px][py]-'0');
+                    px += dx[dir];
+                    py += dy[dir];
                         //cout<<"argh"<<endl;
-                    }
-                    //cout<<"out"<<endl;
-                    ultimateKill += mm;
-                    int prev = -1;
-                    if(dir<2)  //AV
-                        dinic.addEdge(src, i*m+j, INF),prev = i*m+j;
-                    else dinic.addEdge(i*m+j+d, sink, INF), prev = i*m+j+d;
-                        //cout<<"add src"<<src<<" "<<i*m+j<<endl;
-                    
-                    px = i+dx[dir], py = j+dy[dir];
+                }
+                //cout<<"out"<<endl;
+                ultimateKill += mm;
+                
+                if(dir<2)  //AV
+                    dinic.addEdge(src, i*m+j, INF);
+                else dinic.addEdge(i*m+j+d, sink, INF);
+                    //cout<<"add src"<<src<<" "<<i*m+j<<endl;
+                int prev = i*m+j;
+                px = i+dx[dir], py = j+dy[dir];
+                
+                while(px>=0 and px<n and py>=0 and py<m){
                     int enimies = 0;
-                    while(px>=0 and px<n and py>=0 and py<m){
-                        if(dir<2)
-                            dinic.addEdge(prev, px*m+py, mm-enimies),prev = px*m+py;
-                        else
-                            dinic.addEdge(px*m+py+d,prev,mm-enimies),prev = px*m+py+d;
-                        if(board[px][py]!='.')
-                            enimies = max(enimies,board[px][py]-'0');
-                        px += dx[dir];
-                        py += dy[dir];
-                            
-                    }
+                    if(board[prev/m][prev%m]>='0' && board[prev/m][prev%m]<='9')
+                        enimies = board[prev/m][prev%m]-'0';
+                    if(dir<2)
+                        dinic.addEdge(prev, px*m+py, mm-enimies);
+                    else
+                        dinic.addEdge(px*m+py+d,prev+d,mm-enimies);
+                    prev = px*m+py;
+                    px += dx[dir];
+                    py += dy[dir];
+                    
                 }
             }
         for(int i=0;i<n;i++)
