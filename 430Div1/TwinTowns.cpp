@@ -53,7 +53,8 @@ public:
                         int j_cnt = (s>>(2*j))&3;
                         int k_cnt = (s>>(2*k))&3;
                         if(d1>=minDistance && d2>=minDistance && j_cnt && k_cnt){
-                            t = s^(i_cnt<<(2*i))^(j_cnt<<(2*j))^((j_cnt-1)<<(2*j))^(k_cnt<<(2*k))^((k_cnt-1)<<(2*k));
+                            t = s^(i_cnt<<(2*i))^(j_cnt<<(2*j))^((j_cnt-1)<<(2*j))\
+                                    ^(k_cnt<<(2*k))^((k_cnt-1)<<(2*k));
                             sub = f(t,n,x,y,minDistance);
                             lp = sub.first+2;
                             ls = sub.second + d1+ d2;
@@ -76,8 +77,11 @@ public:
                         int j_cnt = (s>>(2*j))&3;
                         int k_cnt = (s>>(2*k))&3;
                         int l_cnt = (s>>(2*l))&3;
-                        if(d1>=minDistance && d2>=minDistance && d3>=minDistance && j_cnt && k_cnt &&l_cnt){
-                            t = s^(i_cnt<<(2*i))^(j_cnt<<(2*j))^((j_cnt-1)<<(2*j))^(k_cnt<<(2*k))^((k_cnt-1)<<(2*k))^(l_cnt<<(2*l))^((l_cnt-1)<<(2*l));
+                        if(d1>=minDistance && d2>=minDistance \
+                                && d3>=minDistance && j_cnt && k_cnt &&l_cnt){
+                            t = s^(i_cnt<<(2*i))^(j_cnt<<(2*j))
+                                    ^((j_cnt-1)<<(2*j))^(k_cnt<<(2*k))\
+                                    ^((k_cnt-1)<<(2*k))^(l_cnt<<(2*l))^((l_cnt-1)<<(2*l));
                             sub = f(t,n,x,y,minDistance);
                             lp = sub.first+3;
                             ls = sub.second + d1+ d2 +d3;
@@ -105,4 +109,3 @@ public:
         return result;
     }
 };
-
