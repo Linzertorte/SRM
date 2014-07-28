@@ -8,7 +8,8 @@ using namespace std;
 typedef pair<long long, long long> PD;
 class TrainRobber {
 public:
-    double finalPosition(int length, int nCarriages, vector <string> offset, vector <string> period, int trainSpeed, int robberSpeed, int nBridges) {
+    double finalPosition(int length, int nCarriages, vector <string> offset, \
+    vector <string> period, int trainSpeed, int robberSpeed, int nBridges) {
         long long walk = 1LL*length*robberSpeed+1LL*length*trainSpeed; //robberSpeed;
         
         priority_queue<PD, vector<PD>, greater<PD> > bridges;
