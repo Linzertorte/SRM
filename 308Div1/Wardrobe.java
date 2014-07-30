@@ -21,13 +21,16 @@ public class Wardrobe
                         for (int p2 = 0; p2 <= cnt[s + 1]; p2++)
                             for (int n1 = 0; n1 + p2 <= cnt[s + 1]; n1++)
                                 for (int n2 = 0; n2 + p1 <= cnt[s + 1]; n2++) {
-                                    if(fn==0 && p1+n2==p2+n1) dp[s+1][fn][n1][n2] = Math.max(dp[s+1][fn][n1][n2],dp[s][fd][p1][p2]);
+                                    if(fn==0 && p1+n2==p2+n1) 
+                                        dp[s+1][fn][n1][n2] = Math.max(dp[s+1][fn][n1][n2],dp[s][fd][p1][p2]);
                                     else if(fn==1 && p1+n2>=p2+n1){
-                                        dp[s+1][fn][n1][n2] =Math.max(dp[s+1][fn][n1][n2], dp[s][fd][p1][p2] + (p1+n2) -(p2+n1));
+                                        dp[s+1][fn][n1][n2] =Math.max(dp[s+1][fn][n1][n2], \
+                                        dp[s][fd][p1][p2] + (p1+n2) -(p2+n1));
                                         //System.out.println("update "+(s+1)+" "+fn+" "+n1+" "+n2+" "+dp[s+1][fn][n1][n2]);
                                     }
                                     else if(fn==2 && p1+n2<=p2+n1) {
-                                        dp[s+1][fn][n1][n2] = Math.max(dp[s+1][fn][n1][n2],dp[s][fd][p1][p2] + (p2+n1) -(p1+n2));
+                                        dp[s+1][fn][n1][n2] = Math.max(dp[s+1][fn][n1][n2],\
+                                        dp[s][fd][p1][p2] + (p2+n1) -(p1+n2));
                                        // System.out.println("update "+(s+1)+" "+fn+" "+n1+" "+n2+" "+dp[s+1][fn][n1][n2]);
                                     }
                                 }
