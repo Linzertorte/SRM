@@ -24,12 +24,12 @@ public class Wardrobe
                                     if(fn==0 && p1+n2==p2+n1) 
                                         dp[s+1][fn][n1][n2] = Math.max(dp[s+1][fn][n1][n2],dp[s][fd][p1][p2]);
                                     else if(fn==1 && p1+n2>=p2+n1){
-                                        dp[s+1][fn][n1][n2] =Math.max(dp[s+1][fn][n1][n2], \
+                                        dp[s+1][fn][n1][n2] =Math.max(dp[s+1][fn][n1][n2],
                                         dp[s][fd][p1][p2] + (p1+n2) -(p2+n1));
                                         //System.out.println("update "+(s+1)+" "+fn+" "+n1+" "+n2+" "+dp[s+1][fn][n1][n2]);
                                     }
                                     else if(fn==2 && p1+n2<=p2+n1) {
-                                        dp[s+1][fn][n1][n2] = Math.max(dp[s+1][fn][n1][n2],\
+                                        dp[s+1][fn][n1][n2] = Math.max(dp[s+1][fn][n1][n2],
                                         dp[s][fd][p1][p2] + (p2+n1) -(p1+n2));
                                        // System.out.println("update "+(s+1)+" "+fn+" "+n1+" "+n2+" "+dp[s+1][fn][n1][n2]);
                                     }
