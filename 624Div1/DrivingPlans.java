@@ -1,6 +1,4 @@
 import java.util.*;
-
-
 public class DrivingPlans
 {
     private final int MOD = 1000000009;
@@ -85,10 +83,12 @@ public class DrivingPlans
         for(int i:v){
             if(i==0) continue;
             for(Edge e:(ArrayList<Edge>)graph[i]){
-                if(dist[e.v]+e.w==dist[i]) dp[i]+=dp[e.v];
-                dp[i]%=MOD;
+                if(dist[e.v]+e.w==dist[i]) {
+                	dp[i]+=dp[e.v];
+                	dp[i]%=MOD;
+                }
             }
-            dp[i] %= MOD;
+           
         }
 
         return dp[N-1];
