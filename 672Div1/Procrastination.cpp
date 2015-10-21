@@ -46,12 +46,11 @@ public:
         }
         if(x!=1) r.push_back(make_pair(x, 1));
         vector<long long> fs(1,1);
-        vector<long long> cur;
         for(auto p: r){
-            cur =fs;
+            size_t len = fs.size();
             for(int i=1;i<=p.second;i++)
-                for(auto j:cur)
-                    fs.push_back(j*mypow(p.first,i));
+                for(int j=0;j<len;j++)
+                    fs.push_back(fs[j]*mypow(p.first,i));
         }
         sort(fs.begin(),fs.end());
         dp[n] = fs;
